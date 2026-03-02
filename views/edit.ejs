@@ -1,0 +1,143 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  /* Center the form card */
+  .edit-card {
+      max-width: 650px;       /* Medium size */
+      margin: 40px auto;
+      padding: 20px 25px;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      background-color: #fff;
+  }
+
+  .edit-card h3 {
+      text-align: center;
+      margin-bottom: 25px;
+      font-weight: 600;
+  }
+
+  .edit-card label h5 {
+      font-size: 1rem;
+      margin-bottom: 5px;
+  }
+
+  .edit-card input.form-control,
+  .edit-card textarea.form-control,
+  .edit-card select.form-select {
+      border-radius: 10px;
+      padding: 8px 12px;
+  }
+
+  .edit-card img {
+      display: block;
+      margin: 10px 0;
+      border-radius: 10px;
+      max-width: 100%;
+      height: auto;
+  }
+
+  /* Row spacing */
+  .edit-card .row > .col-4,
+  .edit-card .row > .col-8 {
+      margin-bottom: 15px;
+  }
+
+  /* Submit Button */
+  .edit-card button.btn-primary {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 1rem;
+  }
+
+  /* Reduce spacing between sections */
+  .edit-card br {
+      display: none; /* Remove extra breaks; spacing handled by CSS */
+  }
+</style>
+
+<body>
+  <div class="edit-card">
+    <h3>Edit Listing Details</h3>
+
+    <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" 
+          enctype="multipart/form-data" novalidate class="needs-validation">
+
+      <!-- Title -->
+      <div class="mb-3">
+        <label for="title" class="form-label"><h5>Title</h5></label>
+        <input name="listing[title]" value="<%= listing.title %>" type="text" class="form-control" required>
+        <div class="valid-feedback">Looks good!</div>
+      </div>
+
+      <!-- Description -->
+      <div class="mb-3">
+        <label for="description" class="form-label"><h5>Description</h5></label>
+        <textarea name="listing[description]" rows="3" class="form-control" required><%= listing.description %></textarea>
+        <div class="invalid-feedback">Enter a valid description</div>
+      </div>
+
+      <!-- Main Image -->
+      <div class="mb-3">
+        <h5>Original Main Image</h5>
+        <img src="<%= originalImageUrl %>" alt="Image" style="height:9rem; width: 16rem;">
+        <label for="image" class="form-label"><h5>Upload New Image</h5></label>
+        <input name="listing[image]" type="file" class="form-control">
+      </div>
+
+      <!-- Extra Image -->
+      <div class="mb-3">
+        <h5>Original Additional Image</h5>
+        <img src="<%= originalExtraImageUrl %>" alt="Extra Image" style="height:9rem; width: 16rem;">
+        <label for="extraImage" class="form-label"><h5>Upload New Additional Image</h5></label>
+        <input name="listing[extraImage]" type="file" class="form-control">
+      </div>
+
+      <!-- Price & Location -->
+      <div class="row">
+        <div class="col-4 mb-3">
+          <label for="price" class="form-label"><h5>Price</h5></label>
+          <input name="listing[price]" value="<%= listing.price %>" class="form-control" required>
+          <div class="invalid-feedback">Enter valid price</div>
+        </div>
+        <div class="col-8 mb-3">
+          <label for="location" class="form-label"><h5>Location</h5></label>
+          <input name="listing[location]" value="<%= listing.location %>" type="text" class="form-control" required>
+          <div class="invalid-feedback">Enter valid location</div>
+        </div>
+      </div>
+
+      <!-- Country -->
+      <div class="mb-3">
+        <label for="country" class="form-label"><h5>Country</h5></label>
+        <input name="listing[country]" value="<%= listing.country %>" type="text" class="form-control" required>
+        <div class="invalid-feedback">Enter valid country</div>
+      </div>
+
+      <!-- Category -->
+      <div class="mb-3">
+        <label for="category"><h5>Category</h5></label>
+        <select name="listing[category]" id="category" class="form-select" required>
+          <option value="">-- Select Category --</option>
+          <option value="Rooms" <%= listing.category === 'Rooms' ? 'selected' : '' %>>Rooms</option>
+          <option value="Mountains" <%= listing.category === 'Mountains' ? 'selected' : '' %>>Mountains</option>
+          <option value="Beachfront" <%= listing.category === 'Beachfront' ? 'selected' : '' %>>Beachfront</option>
+          <option value="Island" <%= listing.category === 'Island' ? 'selected' : '' %>>Island</option>
+          <option value="Desert" <%= listing.category === 'Desert' ? 'selected' : '' %>>Desert</option>
+          <option value="Farms" <%= listing.category === 'Farms' ? 'selected' : '' %>>Farms</option>
+          <option value="Arctic" <%= listing.category === 'Arctic' ? 'selected' : '' %>>Arctic</option>
+          <option value="Towers" <%= listing.category === 'Towers' ? 'selected' : '' %>>Towers</option>
+          <option value="Iconic Cities" <%= listing.category === 'Iconic Cities' ? 'selected' : '' %>>Iconic Cities</option>
+          <option value="Trending" <%= listing.category === 'Trending' ? 'selected' : '' %>>Trending</option>
+          <option value="Amazing Pools" <%= listing.category === 'Amazing Pools' ? 'selected' : '' %>>Amazing Pools</option>
+        </select>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="btn btn-primary mt-3">Edit Listing</button>
+    </form>
+  </div>
+
+<script src="/JS/script.js"></script>
+</body>

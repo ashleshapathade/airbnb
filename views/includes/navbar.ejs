@@ -1,0 +1,171 @@
+<style>
+  .nav-highlight {
+    color: #ff385c;
+  }
+
+  .navbar .search-wrapper {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+  .search-wrapper {
+  position: relative;
+  height: 20px;
+}
+.navbar-nav form {
+  display: flex;
+  align-items: center;
+}
+
+/* Bigger icon */
+.search-icon {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9aa0a6;
+  font-size: 1.2rem;   
+  
+}
+
+/* Bigger input */
+.search-inp {
+  border-radius: 40px;
+  padding: 0.75rem 1.2rem 0.75rem 3rem; 
+  font-size: 1.1rem;   
+  height: 44px;     
+ 
+    
+}
+
+/* Placeholder same color */
+.search-inp::placeholder {
+  color: #9aa0a6;
+  font-size: 1.05rem;
+  padding-left: 1.5rem;
+}
+
+.nav-item-text {
+  font-weight: 600;
+  line-height: 1.5;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+  
+  
+  
+
+</style>
+
+<nav class="navbar navbar-expand-md bg-body-light  border-bottom sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/listings"><i class="fa-regular fa-compass"></i></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          
+          <a class="nav-link" href="/listings"><b>Explore</b></a>
+          
+          
+        </div>
+
+        <div class="navbar-nav ms-auto">
+          <form class="d-flex" role="search" id="searchForm" method="GET" action="/listings">
+    
+            <div class="search-wrapper">
+              <i class="fa-solid fa-magnifying-glass search-icon"></i>
+              <input 
+                class="form-control search-inp" 
+                id="searchInput" 
+                name="search" 
+                type="search" 
+                placeholder="Search Destinations" 
+                aria-label="Search"
+              >
+            </div>
+
+          </form>
+        </div>
+
+        <div class="navbar-nav ms-auto align-items-center">
+
+  <a class="nav-link nav-item-text me-3" href="/listings/new">
+    Airbnb your home
+  </a>
+
+  <div class="dropdown">
+    <a class="nav-link dropdown-toggle nav-item-text d-flex align-items-center"
+       href="#"
+       role="button"
+       data-bs-toggle="dropdown">
+      <i class="fa-solid fa-user me-2"></i>
+      Account
+    </a>
+  
+            
+
+        
+
+    <ul class="dropdown-menu dropdown-menu-end">
+
+      <% if(!currUser){ %>
+        <li>
+          <a class="dropdown-item" href="/signup">Signup</a>
+        </li>
+        <li>
+          <a class="dropdown-item" href="/login">Login</a>
+        </li>
+      <% } %>
+
+      <% if(currUser){ %>
+        <li>
+          <span class="dropdown-item-text">
+            Logged in as <b><%= currUser.email %></b>
+          </span>
+        </li>
+        <li><hr class="dropdown-divider"></li>
+        <li>
+          <a class="dropdown-item text-danger" href="/logout">Logout</a>
+        </li>
+      <% } %>
+
+    </ul>
+  </div>
+</div>
+          
+        </div>
+      
+        
+      </div>
+    </div>
+  </nav>
+
+<!-- JS -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("searchForm").addEventListener("submit", function (e) {
+      //e.preventDefault(); // Keep this if doing frontend filtering
+
+      const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+      const listings = document.querySelectorAll(".listing");
+
+      listings.forEach(listing => {
+        const location = (listing.getAttribute("data-location") || "").toLowerCase();
+        const category = (listing.getAttribute("data-category") || "").toLowerCase();
+        const country = (listing.getAttribute("data-country") || "").toLowerCase();
+
+        if (
+          location.includes(searchTerm) ||
+          category.includes(searchTerm) ||
+          country.includes(searchTerm)
+        ) {
+          listing.style.display = "block";
+        } else {
+          listing.style.display = "none";
+        }
+      });
+    });
+  });
+</script>

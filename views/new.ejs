@@ -1,0 +1,166 @@
+
+<% layout ("/layouts/boilerplate") %>
+<style>
+/* Center form nicely */
+form {
+    background-color: #ffffff;
+    padding: 2.5rem;
+    border-radius: 18px;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+/* Page background */
+body {
+    background-color: #f7f7f7;
+}
+
+/* Form container styling */
+.form-container {
+    background-color: #ffffff;
+    padding: 2.5rem;
+    border-radius: 18px;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+/* Form heading */
+h3 {
+    text-align: center;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Input styling */
+.form-control,
+.form-select {
+    border-radius: 12px;
+    padding: 0.65rem 0.9rem;
+    border: 1px solid #dcdcdc;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Focus effect */
+.form-control:focus,
+.form-select:focus {
+    border-color: #222;
+    box-shadow: 0 0 0 0.15rem rgba(0, 0, 0, 0.08);
+}
+
+/* Labels */
+.form-label {
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+}
+
+/* Button styling */
+.btn-dark {
+    width: 100%;
+    padding: 0.7rem;
+    border-radius: 12px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-dark:hover {
+    background-color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+</style>
+
+
+
+<body>
+    <h3>Create a new listing</h3>
+    <br>
+    <form method="post" action="/listings" enctype="multipart/form-data" novalidate class=" needs-validation" >
+        <div class="row">
+            <div class="col-8 offset-2">
+        <div>
+            <label for="title" class="form-label">Title</label>
+            <input name="listing[title]" placeholder="enter title" type="text" class="form-control" required>
+            <div class="valid-feedback">
+                Looks good!
+              </div>
+        </div>
+        
+        <br>
+        <br>
+        <div>
+            <label for="description" class="form-label">description</label>
+            <textarea name="listing[description]" placeholder="enter description" type="text" rows="3" cols="8" class="form-control"  required></textarea>
+            <div class="invalid-feedback">
+                enter valid description
+              </div>
+        </div>
+        <br>
+        <br>
+        <div>
+            <label for="image" class="form-label">Upload Main Image</label>
+            <input name="listing[image]" placeholder="Enter image URL/link" type="file" class="form-control" required>
+            
+        </div>
+        <div>
+            <label for="image" class="form-label">Upload Additional Image:</label>
+            <input name="listing[extraImage]" placeholder="Enter image URL/link" type="file" class="form-control" >
+            
+        </div>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col">
+                <label for="price" class="form-label">price</label>
+                <input name="listing[price]" placeholder="enter price"  class="form-control" required>
+                <div class="invalid-feedback">
+                    enter valid price
+                  </div>
+            </div>
+            <br>
+            <br>
+            <div class="col">
+                <label for="location" class="form-label">location</label>
+                <input name="listing[location]" placeholder="enter location" type="text" class="form-control" required >
+                <div class="invalid-feedback">
+                    enter valid location
+                  </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div>
+            <label for="country" class="form-label">country</label>
+            <input name="listing[country]" placeholder="enter country" type="text" class="form-control" required>
+            <div class="invalid-feedback">
+                enter valid country name
+              </div>
+        </div>
+        <br>
+        <br>
+        <div>
+            <label for="category">Choose an option:</label> 
+            <select id="category" name="listing[category]" class="form-select form-select-lg mb-3" aria-label="Large select example" required>
+                <option value="" disabled selected>Select a category</option>
+                <option value="Trending">Trending</option>
+                <option value="Rooms">Rooms</option>
+                <option value="Iconic Cities">Iconic Cities</option>
+                <option value="Mountains">Mountains</option>
+                <option value="Amazing Pools">Amazing Pools</option>
+                <option value="Island">Island</option>
+                <option value="Desert">Desert</option>
+                <option value="Farms">Farms</option>
+                <option value="Beachfront">Beachfront</option>
+                <option value="Arctic">Arctic</option>
+                <option value="Towers">Towers</option>
+            </select>
+        </div>
+        <br>
+        <br>
+        <button type="submit" class="btn btn-dark">Add</button>
+        <br>
+    </div>
+    </div>
+    </form>
+    
+</body>

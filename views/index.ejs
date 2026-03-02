@@ -1,0 +1,231 @@
+<% layout ("/layouts/boilerplate") %>
+
+<style>
+    /* Existing styles for filters */
+    #filters {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        
+        
+
+    }
+
+    .filter {
+        text-align: center;
+        margin-top: 2rem;
+        margin-right: 1.5rem;
+        opacity: 0.6;
+    }
+
+    .filter:hover {
+        opacity: 1;
+        cursor: pointer;
+    }
+
+    .filter a {
+        text-decoration: none;
+        color: black;
+    }
+
+    .filter p {
+        font-size: 0.8rem;
+        color: black;
+    }
+
+    .tax-info {
+        display: none;
+    }
+
+    .tax-toggle {
+        border: 1px solid black;
+        height: 3.25rem;
+        padding: 0.75rem 1rem;
+        border-radius: 1rem;
+        
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .active-filter {
+        opacity: 1 !important;
+        font-weight: bold;
+        color: black !important;
+        border-bottom: 2px solid black;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+        #filters {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .filter {
+            width: 100%;
+            max-width: 200px;
+            margin: 1rem 0;
+        }
+
+        .filter p {
+            font-size: 1rem;
+        }
+
+        .tax-toggle {
+            margin-left: 0;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .filter i {
+            font-size: 1.5rem;
+        }
+
+        .filter p {
+            font-size: 0.9rem;
+        }
+
+        .tax-toggle {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+
+    /* Hover-based carousel control visibility */
+    .carousel .carousel-control-prev,
+    .carousel .carousel-control-next {
+        display: none;
+    }
+
+    .card:hover .carousel .carousel-control-prev,
+    .card:hover .carousel .carousel-control-next {
+        display: flex;
+    }
+
+    /* Optional image style */
+    .card-img-top-show {
+        height: 21rem;
+        object-fit: cover;
+    }
+    
+    /* On Hover - Enlarge the image */
+    .card:hover .card-img-top {
+        transform: scale(1.1); /* Slightly enlarge the image */
+    }
+    .card:hover {
+    transform: scale(1.05); /* Test the hover effect */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    opacity: 0.4;
+}
+
+
+</style>
+
+<body>
+    <!-- FILTERS SECTION -->
+    <div id="filters">
+        <% const categories = [
+            { name: "Trending", icon: "fa-fire" },
+            { name: "Rooms", icon: "fa-bed" },
+            { name: "Iconic Cities", icon: "fa-mountain-city" },
+            { name: "Mountains", icon: "fa-mountain-sun" },
+            { name: "Amazing Pools", icon: "fa-person-swimming" },
+            { name: "Island", icon: "fa-water" },
+            { name: "Desert", icon: "fa-sun" },
+            { name: "Farms", icon: "fa-tractor" },
+            { name: "Beachfront", icon: "fa-umbrella-beach" },
+            { name: "Arctic", icon: "fa-snowflake" },
+            { name: "Towers", icon: "fa-tower-observation" }
+        ]; %>
+        <% categories.forEach(cat => { %>
+            <div class="filter <%= category === cat.name ? 'active-filter' : '' %>">
+                <a href="/listings?category=<%= cat.name %>">
+                    <div><i class="fa-solid <%= cat.icon %>"></i></div>
+                    <p><%= cat.name %></p>
+                </a>
+            </div>
+        <% }); %>
+
+        <div class="tax-toggle">
+            <div class="form-check-reverse form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+                <label class="form-check-label" for="switchCheckDefault">Display total after taxes</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- LISTINGS SECTION -->
+    <% if (listings.length === 0) { %>
+        <div class="d-flex justify-content-center align-items-center" style="height: 50vh;">
+            <% if (search) { %>
+                <h3>No results found for "<%= search %>"</h3>
+            <% } else if (category) { %>
+                <h3>No listings found for "<%= category %>"</h3>
+            <% } else { %>
+                <h3>No listings found.</h3>
+            <% } %>
+        </div>
+    <% } else { %>
+        <div class="container mt-4">
+            <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+                <% listings.forEach(function (listing) { %>
+                    <div class="col listing"
+                        data-location="<%= (listing.location || '').toLowerCase() %>"
+                        data-category="<%= (listing.category || '').toLowerCase() %>"
+                        data-country="<%= (listing.country || '').toLowerCase() %>">
+
+                        <a href="/listings/<%= listing._id %>" class="listing-card-link">
+                            <div class="card">
+                                <% if (listing.image?.url && listing.extraImage?.url) { %>
+                                    <div id="listingCarousel-<%= listing._id %>" class="carousel slide" data-bs-ride="carousel">
+                                        <div class="carousel-inner">
+                                            <div class="carousel-item active">
+                                                <img src="<%= listing.image.url %>" class="d-block w-100 card-img-top-show" alt="Main image">
+                                            </div>
+                                            <div class="carousel-item">
+                                                <img src="<%= listing.extraImage.url %>" class="d-block w-100 card-img-top-show" alt="Extra image">
+                                            </div>
+                                        </div>
+                                        <button class="carousel-control-prev" type="button" data-bs-target="#listingCarousel-<%= listing._id %>" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button" data-bs-target="#listingCarousel-<%= listing._id %>" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </button>
+                                    </div>
+                                <% } else if (listing.image?.url) { %>
+                                    <div class="single-image-wrapper">
+                                        <img src="<%= listing.image.url %>" class="card-img-top-show w-100" alt="Main image">
+                                    </div>
+                                <% } %>
+
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        <b><%= listing.title %></b><br />
+                                        &#8377; <%= listing.price ? listing.price.toLocaleString("en-IN") : "Price not available" %> / night
+                                        <i class="tax-info"> &nbsp;&nbsp; +18% GST</i>
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+    <% } %>
+
+    <!-- Tax Toggle Script -->
+    <script>
+        document.getElementById("switchCheckDefault").addEventListener("click", function () {
+            const taxInfo = document.getElementsByClassName("tax-info");
+            for (let i = 0; i < taxInfo.length; i++) {
+                taxInfo[i].style.display = taxInfo[i].style.display === "inline" ? "none" : "inline";
+            }
+        });
+    </script>
+</body>

@@ -1,0 +1,179 @@
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+body{
+background: linear-gradient(to right,#8eaadf,#b39ddb);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+}
+
+.signup-card{
+background:#fff;
+padding:40px 35px;
+border-radius:15px;
+width:450px;
+box-shadow:0 15px 35px rgba(0,0,0,0.2);
+}
+
+.signup-card h2{
+text-align:center;
+font-weight:700;
+margin-bottom:25px;
+}
+
+.form-row{
+margin-bottom:18px;
+}
+
+.form-control{
+border-radius:25px;
+padding:12px 15px;
+width:100%;
+}
+
+.password-wrapper{
+position:relative;
+}
+
+.eye-icon{
+position:absolute;
+right:15px;
+top:50%;
+transform:translateY(-50%);
+cursor:pointer;
+font-size:18px;
+color:#555;
+}
+
+.btn-signup{
+width:100%;
+border-radius:25px;
+padding:12px;
+background:linear-gradient(to right,#0d6efd,#003f88);
+border:none;
+color:#fff;
+font-weight:600;
+margin-top:10px;
+}
+
+.flash-message{
+text-align:center;
+margin-bottom:15px;
+font-size:14px;
+font-weight:600;
+}
+
+.error{color:red;}
+.success{color:green;}
+
+.bottom-text{
+text-align:center;
+margin-top:15px;
+font-size:14px;
+}
+
+.bottom-text a{
+text-decoration:none;
+color:#0d6efd;
+font-weight:500;
+}
+</style>
+
+<body>
+
+<div class="signup-card">
+
+<h2>Signup Form</h2>
+
+<!-- Flash Messages -->
+<% if(successMsg && successMsg.length > 0){ %>
+   <div class="flash-message success"><%= successMsg %></div>
+<% } %>
+
+<% if(errorMsg && errorMsg.length > 0){ %>
+   <div class="flash-message error"><%= errorMsg %></div>
+<% } %>
+
+<form method="POST" action="/signup">
+
+<!-- Username -->
+<div class="form-row">
+<input name="username"
+placeholder="Username"
+type="text"
+class="form-control"
+pattern="^[a-zA-Z0-9_]{3,15}$"
+title="Username must be 3-15 characters (letters, numbers, underscore)"
+required>
+</div>
+
+<!-- Email -->
+<div class="form-row">
+<input name="email"
+placeholder="Email Address"
+type="email"
+class="form-control"
+pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$"
+title="Enter a valid email"
+required>
+</div>
+
+<!-- Password -->
+<div class="form-row password-wrapper">
+<input id="password"
+name="password"
+placeholder="Password"
+type="password"
+class="form-control"
+pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$"
+title="Password must contain uppercase, lowercase, number, special character and 8+ length"
+required>
+
+<i class="fa-solid fa-eye-slash eye-icon"
+onclick="togglePassword('password',this)"></i>
+</div>
+
+<!-- Confirm Password -->
+<div class="form-row password-wrapper">
+<input id="confirmPassword"
+name="confirmPassword"
+placeholder="Confirm Password"
+type="password"
+class="form-control"
+required>
+
+<i class="fa-solid fa-eye-slash eye-icon"
+onclick="togglePassword('confirmPassword',this)"></i>
+</div>
+
+<button type="submit" class="btn-signup">Signup</button>
+
+</form>
+
+<div class="bottom-text">
+Already have an account? <a href="/login">Login</a>
+</div>
+
+</div>
+
+<script>
+function togglePassword(fieldId,icon){
+    const field=document.getElementById(fieldId);
+
+    if(field.type==="password"){
+        field.type="text";
+        icon.classList.remove("fa-eye-slash");
+        icon.classList.add("fa-eye");
+    }else{
+        field.type="password";
+        icon.classList.remove("fa-eye");
+        icon.classList.add("fa-eye-slash");
+    }
+}
+</script>
+
+</body>
