@@ -35,6 +35,7 @@ A full-stack Airbnb-style web application that enables users to discover, create
 ### ⚙️ Backend
 - Node.js
 - Express.js
+- EJS
 
 ### 🗄️ Database
 - MongoDB
