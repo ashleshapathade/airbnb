@@ -28,6 +28,9 @@ A full-stack Airbnb-style web application that enables users to discover, create
 - HTML
 - CSS
 - JavaScript
+- Bootstrap
+- Material UI
+- Responsive Design
 
 ### ⚙️ Backend
 - Node.js
